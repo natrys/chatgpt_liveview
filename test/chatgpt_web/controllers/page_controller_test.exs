@@ -1,5 +1,5 @@
-defmodule ChatgptWeb.PageControllerTest do
-  use ChatgptWeb.ConnCase
+defmodule ChatGPTWeb.PageControllerTest do
+  use ChatGPTWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

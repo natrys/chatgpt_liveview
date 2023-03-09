@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(Chatgpt.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(ChatGPT.Repo, :manual)

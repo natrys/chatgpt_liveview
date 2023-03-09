@@ -3,17 +3,17 @@
     <div class="flex flex-col px-2">
       <span class="text-center text-xl underline">Model Settings</span>
 
-      <ChatgptWeb.HelperComponent.slider_label value={@temperature} title="Temperature" />
-      <ChatgptWeb.HelperComponent.slider value={@temperature} event="update-temperature" range="0:2" />
+      <ChatGPTWeb.HelperComponent.slider_label value={@temperature} title="Temperature" />
+      <ChatGPTWeb.HelperComponent.slider value={@temperature} event="update-temperature" range="0:2" />
 
-      <ChatgptWeb.HelperComponent.slider_label
+      <ChatGPTWeb.HelperComponent.slider_label
         value={@frequency_penalty}
         title="Frequency Penalty"
       />
-      <ChatgptWeb.HelperComponent.slider value={@frequency_penalty} event="update-fpen" range="-2:2" />
+      <ChatGPTWeb.HelperComponent.slider value={@frequency_penalty} event="update-fpen" range="-2:2" />
 
-      <ChatgptWeb.HelperComponent.slider_label value={@presence_penalty} title="Presence Penalty" />
-      <ChatgptWeb.HelperComponent.slider value={@presence_penalty} event="update-ppen" range="-2:2" />
+      <ChatGPTWeb.HelperComponent.slider_label value={@presence_penalty} title="Presence Penalty" />
+      <ChatGPTWeb.HelperComponent.slider value={@presence_penalty} event="update-ppen" range="-2:2" />
     </div>
   </div>
 
@@ -24,7 +24,7 @@
     >
       <div phx-update="stream" id="pairs" class="space-y-10">
         <%= for {dom_id, conversation} <- @streams.history do %>
-          <ChatgptWeb.HelperComponent.format_conversation dom_id={dom_id} conversation={conversation} />
+          <ChatGPTWeb.HelperComponent.format_conversation dom_id={dom_id} conversation={conversation} />
         <% end %>
       </div>
     </div>

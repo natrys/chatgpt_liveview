@@ -1,4 +1,4 @@
-# Chatgpt
+# ChatGPT
 
 To start your Phoenix server:
 

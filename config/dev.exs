@@ -1,7 +1,7 @@
 import Config
 
 # Configure your database
-config :chatgpt, Chatgpt.Repo,
+config :chatgpt, ChatGPT.Repo,
   database: Path.expand("../chatgpt_dev.db", Path.dirname(__ENV__.file)),
   pool_size: 5,
   stacktrace: true,
@@ -13,7 +13,7 @@ config :chatgpt, Chatgpt.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-config :chatgpt, ChatgptWeb.Endpoint,
+config :chatgpt, ChatGPTWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -50,7 +50,7 @@ config :chatgpt, ChatgptWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :chatgpt, ChatgptWeb.Endpoint,
+config :chatgpt, ChatGPTWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",

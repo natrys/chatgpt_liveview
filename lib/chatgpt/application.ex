@@ -1,4 +1,4 @@
-defmodule Chatgpt.Application do
+defmodule ChatGPT.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -9,22 +9,22 @@ defmodule Chatgpt.Application do
   def start(_type, _args) do
     children = [
       # Start the Telemetry supervisor
-      ChatgptWeb.Telemetry,
+      ChatGPTWeb.Telemetry,
       # Start the Ecto repository
-      Chatgpt.Repo,
+      ChatGPT.Repo,
       # Start the PubSub system
-      {Phoenix.PubSub, name: Chatgpt.PubSub},
+      {Phoenix.PubSub, name: ChatGPT.PubSub},
       # Start Finch
-      {Finch, name: Chatgpt.Finch, pools: %{:default => [size: 10]}},
+      {Finch, name: ChatGPT.Finch, pools: %{:default => [size: 10]}},
       # Start the Endpoint (http/https)
-      ChatgptWeb.Endpoint
-      # Start a worker by calling: Chatgpt.Worker.start_link(arg)
-      # {Chatgpt.Worker, arg}
+      ChatGPTWeb.Endpoint
+      # Start a worker by calling: ChatGPT.Worker.start_link(arg)
+      # {ChatGPT.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Chatgpt.Supervisor]
+    opts = [strategy: :one_for_one, name: ChatGPT.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -32,7 +32,7 @@ defmodule Chatgpt.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    ChatgptWeb.Endpoint.config_change(changed, removed)
+    ChatGPTWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

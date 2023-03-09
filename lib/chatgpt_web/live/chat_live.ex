@@ -1,5 +1,5 @@
-defmodule ChatgptWeb.ChatLive do
-  use ChatgptWeb, :live_view
+defmodule ChatGPTWeb.ChatLive do
+  use ChatGPTWeb, :live_view
 
   def mount(_param, _session, socket) do
     socket =
@@ -28,7 +28,7 @@ defmodule ChatgptWeb.ChatLive do
   end
 
   def handle_event("question-submit", question, socket) do
-    answer = Chatgpt.API.request(%{
+    answer = ChatGPT.API.request(%{
       temperature: socket.assigns.temperature,
       frequency_penalty: socket.assigns.frequency_penalty,
       presence_penalty: socket.assigns.presence_penalty,

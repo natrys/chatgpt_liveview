@@ -1,11 +1,11 @@
-defmodule ChatgptWeb.Router do
-  use ChatgptWeb, :router
+defmodule ChatGPTWeb.Router do
+  use ChatGPTWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {ChatgptWeb.Layouts, :root}
+    plug :put_root_layout, {ChatGPTWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -14,7 +14,7 @@ defmodule ChatgptWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ChatgptWeb do
+  scope "/", ChatGPTWeb do
     pipe_through :browser
 
     get "/", PageController, :home
@@ -23,7 +23,7 @@ defmodule ChatgptWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ChatgptWeb do
+  # scope "/api", ChatGPTWeb do
   #   pipe_through :api
   # end
 
@@ -39,7 +39,7 @@ defmodule ChatgptWeb.Router do
     scope "/dev" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: ChatgptWeb.Telemetry
+      live_dashboard "/dashboard", metrics: ChatGPTWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
   end

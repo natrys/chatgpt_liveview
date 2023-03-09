@@ -1,4 +1,4 @@
-defmodule ChatgptWeb.HelperComponent do
+defmodule ChatGPTWeb.HelperComponent do
   use Phoenix.Component
 
   attr :event, :string, required: true

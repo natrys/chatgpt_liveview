@@ -1,4 +1,4 @@
-defmodule ChatgptWeb.CoreComponents do
+defmodule ChatGPTWeb.CoreComponents do
   @moduledoc """
   Provides core UI components.
 
@@ -11,7 +11,7 @@ defmodule ChatgptWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import ChatgptWeb.Gettext
+  import ChatGPTWeb.Gettext
 
   @doc """
   Renders a modal.
@@ -674,9 +674,9 @@ defmodule ChatgptWeb.CoreComponents do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(ChatgptWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(ChatGPTWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(ChatgptWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(ChatGPTWeb.Gettext, "errors", msg, opts)
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule Chatgpt.MixProject do
+defmodule ChatGPT.MixProject do
   use Mix.Project
 
   def project do
@@ -18,7 +18,7 @@ defmodule Chatgpt.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Chatgpt.Application, []},
+      mod: {ChatGPT.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

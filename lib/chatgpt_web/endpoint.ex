@@ -1,4 +1,4 @@
-defmodule ChatgptWeb.Endpoint do
+defmodule ChatGPTWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :chatgpt
 
   # The session will be stored in the cookie and signed,
@@ -21,7 +21,7 @@ defmodule ChatgptWeb.Endpoint do
     at: "/",
     from: :chatgpt,
     gzip: false,
-    only: ChatgptWeb.static_paths()
+    only: ChatGPTWeb.static_paths()
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -47,5 +47,5 @@ defmodule ChatgptWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ChatgptWeb.Router
+  plug ChatGPTWeb.Router
 end

@@ -1,5 +1,5 @@
-defmodule ChatgptWeb.ErrorHTML do
-  use ChatgptWeb, :html
+defmodule ChatGPTWeb.ErrorHTML do
+  use ChatGPTWeb, :html
 
   # If you want to customize your error pages,
   # uncomment the embed_templates/1 call below

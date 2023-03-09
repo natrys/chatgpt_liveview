@@ -40,4 +40,4 @@ npm-debug.log
 *.db-*
 
 .env
-.run.sh
+run.sh

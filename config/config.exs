@@ -8,16 +8,16 @@
 import Config
 
 config :chatgpt,
-  ecto_repos: [Chatgpt.Repo]
+  ecto_repos: [ChatGPT.Repo]
 
 # Configures the endpoint
-config :chatgpt, ChatgptWeb.Endpoint,
+config :chatgpt, ChatGPTWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
-    formats: [html: ChatgptWeb.ErrorHTML, json: ChatgptWeb.ErrorJSON],
+    formats: [html: ChatGPTWeb.ErrorHTML, json: ChatGPTWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Chatgpt.PubSub,
+  pubsub_server: ChatGPT.PubSub,
   live_view: [signing_salt: "5LbnkCKA"]
 
 # Configures the mailer
@@ -27,7 +27,7 @@ config :chatgpt, ChatgptWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :chatgpt, Chatgpt.Mailer, adapter: Swoosh.Adapters.Local
+config :chatgpt, ChatGPT.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,

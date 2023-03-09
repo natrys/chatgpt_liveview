@@ -1,4 +1,4 @@
-defmodule Chatgpt.API do
+defmodule ChatGPT.API do
   @system """
   Be succinct and to the point. Don't use filler words. Assume you are talking to a competent person.
   """
@@ -11,7 +11,7 @@ defmodule Chatgpt.API do
     Jason.encode_to_iodata(%{
       "model" => "gpt-3.5-turbo",
       "temperature" => config.temperature,
-      "max_tokens" => 1024,
+      "max_tokens" => 2048,
       "frequency_penalty" => config.frequency_penalty,
       "presence_penalty" => config.presence_penalty,
       "messages" => [
@@ -28,7 +28,8 @@ defmodule Chatgpt.API do
       [{"Authorization", "Bearer #{get_api_key()}"}, {"Content-Type", "application/json"}],
       body
     )
-    |> Finch.request(Chatgpt.Finch, receive_timeout: 20_000)
+    |> Finch.request(ChatGPT.Finch, receive_timeout: 30_000)
+    |> dbg()
   end
 
   def request(config) do

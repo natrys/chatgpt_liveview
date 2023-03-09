@@ -1,4 +1,4 @@
-defmodule Chatgpt.DataCase do
+defmodule ChatGPT.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -10,7 +10,7 @@ defmodule Chatgpt.DataCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use Chatgpt.DataCase, async: true`, although
+  by setting `use ChatGPT.DataCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -18,17 +18,17 @@ defmodule Chatgpt.DataCase do
 
   using do
     quote do
-      alias Chatgpt.Repo
+      alias ChatGPT.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import Chatgpt.DataCase
+      import ChatGPT.DataCase
     end
   end
 
   setup tags do
-    Chatgpt.DataCase.setup_sandbox(tags)
+    ChatGPT.DataCase.setup_sandbox(tags)
     :ok
   end
 
@@ -36,7 +36,7 @@ defmodule Chatgpt.DataCase do
   Sets up the sandbox based on the test tags.
   """
   def setup_sandbox(tags) do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Chatgpt.Repo, shared: not tags[:async])
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(ChatGPT.Repo, shared: not tags[:async])
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
   end
 

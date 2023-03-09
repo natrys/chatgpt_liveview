@@ -15,7 +15,7 @@ defmodule Chatgpt.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Chatgpt.PubSub},
       # Start Finch
-      {Finch, name: Chatgpt.Finch},
+      {Finch, name: Chatgpt.Finch, pools: %{:default => [size: 10]}},
       # Start the Endpoint (http/https)
       ChatgptWeb.Endpoint
       # Start a worker by calling: Chatgpt.Worker.start_link(arg)

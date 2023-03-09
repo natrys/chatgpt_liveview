@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :chatgpt, ChatgptWeb.Endpoint, server: true
 end
 
+config :chatgpt,
+  api_key: System.get_env("OPENAI_API_KEY") ||
+    raise "OPENAI_API_KEY environment variable not provided."
+
 if config_env() == :prod do
   database_path =
     System.get_env("DATABASE_PATH") ||

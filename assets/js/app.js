@@ -27,7 +27,10 @@ Hooks.HandleQuestion = {
   mounted() {
     this.el.addEventListener("keydown", (event) => {
       if (event.altKey && event.code == "Enter") {
-        this.pushEvent("question-submit", this.el.value);
+        this.pushEventTo("#chat-logic", "question-submit", {question: this.el.value, session: false});
+        document.getElementById("question").disabled = true;
+      } else if (event.shiftKey && event.code == "Enter") {
+        this.pushEventTo("#chat-logic", "question-submit", {question: this.el.value, session: true});
         document.getElementById("question").disabled = true;
       }
     })

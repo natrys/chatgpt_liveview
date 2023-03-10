@@ -1,20 +1,6 @@
 <div class="flex divide-x-2">
   <div class="flex-none w-1/5 px-2 h-screen overflow-clip pt-8">
-    <div class="flex flex-col px-2">
-      <span class="text-center text-xl underline">Model Settings</span>
-
-      <ChatGPTWeb.HelperComponent.slider_label value={@temperature} title="Temperature" />
-      <ChatGPTWeb.HelperComponent.slider value={@temperature} event="update-temperature" range="0:2" />
-
-      <ChatGPTWeb.HelperComponent.slider_label
-        value={@frequency_penalty}
-        title="Frequency Penalty"
-      />
-      <ChatGPTWeb.HelperComponent.slider value={@frequency_penalty} event="update-fpen" range="-2:2" />
-
-      <ChatGPTWeb.HelperComponent.slider_label value={@presence_penalty} title="Presence Penalty" />
-      <ChatGPTWeb.HelperComponent.slider value={@presence_penalty} event="update-ppen" range="-2:2" />
-    </div>
+    <.live_component module={ChatGPTWeb.ChatLogic} id="chat-logic" />
   </div>
 
   <div class="pl-4 pt-2 flex flex-col w-full">
@@ -24,14 +10,17 @@
     >
       <div phx-update="stream" id="pairs" class="space-y-10">
         <%= for {dom_id, conversation} <- @streams.history do %>
-          <ChatGPTWeb.HelperComponent.format_conversation dom_id={dom_id} conversation={conversation} />
+          <ChatGPTWeb.HelperComponent.format_conversation
+            dom_id={dom_id}
+            conversation={conversation}
+          />
         <% end %>
       </div>
     </div>
 
     <textarea
       class="border-2 rounded w-full h-full bg-zinc-50 disabled:bg-zinc-100 disabled:text-gray-500 disabled:border-gray-400 disabled:ring-0 mb-2"
-      placeholder="Talk to ChatGPT (Alt+Enter to finish)"
+      placeholder="Talk to ChatGPT (Alt+Enter to just finish, Shift+Enter to maintain session)"
       id="question"
       phx-hook="HandleQuestion"
     ></textarea>

@@ -4,6 +4,7 @@ defmodule ChatGPTWeb.HelperComponent do
   attr :event, :string, required: true
   attr :range, :string, required: true
   attr :value, :float, required: true
+  attr :target, :atom, required: true
 
   def slider(assigns) do
     [val_min, val_max] = String.split(assigns.range, ":")
@@ -16,6 +17,7 @@ defmodule ChatGPTWeb.HelperComponent do
       step="0.01"
       value={@value}
       phx-click={@event}
+      phx-target={@target}
       class="range range-xs"
     />
     """

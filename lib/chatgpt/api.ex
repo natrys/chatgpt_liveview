@@ -1,8 +1,4 @@
 defmodule ChatGPT.API do
-  @system """
-  Be succinct and to the point. Don't use filler words. Assume you are talking to a competent person.
-  """
-
   def get_api_key do
     Application.fetch_env!(:chatgpt, :api_key)
   end
@@ -11,13 +7,9 @@ defmodule ChatGPT.API do
     Jason.encode_to_iodata(%{
       "model" => "gpt-3.5-turbo",
       "temperature" => config.temperature,
-      "max_tokens" => 2048,
       "frequency_penalty" => config.frequency_penalty,
       "presence_penalty" => config.presence_penalty,
-      "messages" => [
-        %{"role" => "system", "content" => @system},
-        %{"role" => "user", "content" => config.message}
-      ]
+      "messages" => config.messages
     })
   end
 
@@ -29,7 +21,6 @@ defmodule ChatGPT.API do
       body
     )
     |> Finch.request(ChatGPT.Finch, receive_timeout: 30_000)
-    |> dbg()
   end
 
   def request(config) do

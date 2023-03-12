@@ -1,28 +1,38 @@
-<div class="flex divide-x-2">
-  <div class="flex-none w-1/5 px-2 h-screen overflow-clip pt-8">
-    <.live_component module={ChatGPTWeb.ChatLogic} id="chat-logic" />
-  </div>
+<div data-theme={@theme} class={@theme}>
+  <.flash kind={:info} flash={@flash} />
+  <.flash kind={:error} flash={@flash} />
+  <div class="flex divide-x-2 px-4 sm:px-6 lg:px-8 divide-gray-300 dark:divide-gray-600">
+    <div class="flex-none w-1/5 px-2 h-screen overflow-clip pt-8">
+      <div class="flex flex-col justify-between h-full">
+        <.live_component module={ChatGPTWeb.ChatLogic} id="chat-logic" />
+        <span class="flex justify-center items-center gap-4 mb-8 cursor-pointer">
+          <span phx-click="toggle-theme">
+            <%= if @theme == "light" do %>
+              <.icon name="hero-moon" class="w-8 h-8" />
+            <% else %>
+              <.icon name="hero-sun" class="w-8 h-8" />
+            <% end %>
+          </span>
 
-  <div class="pl-4 pt-2 flex flex-col w-full">
-    <div
-      class="flex flex-col prose prose-md max-w-none flex-none h-[90vh] overflow-y-scroll px-2 mb-2"
-      id="history"
-    >
-      <div phx-update="stream" id="pairs" class="space-y-10">
-        <%= for {dom_id, conversation} <- @streams.history do %>
-          <ChatGPTWeb.HelperComponent.format_conversation
-            dom_id={dom_id}
-            conversation={conversation}
-          />
-        <% end %>
+          <span phx-click="toggle-mode">
+            <%= if @mode == :chat do %>
+              <.link patch={~p"/chat/search"}>
+                <.icon name="hero-magnifying-glass" class="w-8 h-8" />
+              </.link>
+            <% else %>
+              <.link patch={~p"/chat"}>
+                <.icon name="hero-chat-bubble-oval-left-ellipsis" class="w-8 h-8" />
+              </.link>
+            <% end %>
+          </span>
+        </span>
       </div>
     </div>
 
-    <textarea
-      class="border-2 rounded w-full h-full bg-zinc-50 disabled:bg-zinc-100 disabled:text-gray-500 disabled:border-gray-400 disabled:ring-0 mb-2"
-      placeholder="Talk to ChatGPT (Alt+Enter to just finish, Shift+Enter to maintain session)"
-      id="question"
-      phx-hook="HandleQuestion"
-    ></textarea>
+    <%= if @mode == :chat do %>
+      <.live_component module={ChatGPTWeb.Chat} id="chat-component" chat={nil} />
+    <% else %>
+      <.live_component module={ChatGPTWeb.Search} id="search-component" />
+    <% end %>
   </div>
 </div>

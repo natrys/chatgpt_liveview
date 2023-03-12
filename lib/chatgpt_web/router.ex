@@ -19,7 +19,8 @@ defmodule ChatGPTWeb.Router do
 
     get "/", PageController, :home
 
-    live "/chat", ChatLive
+    live "/chat", ChatLive, :chat
+    live "/chat/search", ChatLive, :search
   end
 
   # Other scopes may use custom stacks.

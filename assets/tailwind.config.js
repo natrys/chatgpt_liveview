@@ -66,5 +66,6 @@ module.exports = {
     }),
 
     require("daisyui")
-  ]
+  ],
+  darkMode: ['class']
 }

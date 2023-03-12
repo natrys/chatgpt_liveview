@@ -28,22 +28,23 @@ Hooks.HandleQuestion = {
     this.el.addEventListener("keydown", (event) => {
       if (event.altKey && event.code == "Enter") {
         this.pushEventTo("#chat-logic", "question-submit", {question: this.el.value, session: false});
-        document.getElementById("question").disabled = true;
+        document.getElementById("question-textarea").disabled = true;
       } else if (event.shiftKey && event.code == "Enter") {
         this.pushEventTo("#chat-logic", "question-submit", {question: this.el.value, session: true});
-        document.getElementById("question").disabled = true;
+        document.getElementById("question-textarea").disabled = true;
       }
     })
   },
 }
 
-window.addEventListener("phx:clear-question", (_) => {
-  let textarea = document.getElementById("question");
-  textarea.value = "";
-  document.getElementById("question").disabled = false;
-  let history = document.getElementById("history");
-  history.scrollTop = history.scrollHeight;
-})
+Hooks.HandleChatUpdate = {
+  updated() {
+    this.el.scrollTop = this.el.scrollHeight;
+    let textarea = document.getElementById("question-textarea");
+    textarea.value = "";
+    textarea.disabled = false;
+  }
+}
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken }, hooks: Hooks })

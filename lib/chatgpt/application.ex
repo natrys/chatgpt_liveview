@@ -7,6 +7,7 @@ defmodule ChatGPT.Application do
 
   @impl true
   def start(_type, _args) do
+    ChatGPT.Release.migrate()
     children = [
       # Start the Telemetry supervisor
       ChatGPTWeb.Telemetry,

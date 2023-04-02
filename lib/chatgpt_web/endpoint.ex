@@ -21,7 +21,8 @@ defmodule ChatGPTWeb.Endpoint do
     at: "/",
     from: :chatgpt,
     gzip: false,
-    only: ChatGPTWeb.static_paths()
+    only: ChatGPTWeb.static_paths(),
+    only_matching: ["favicon"]
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

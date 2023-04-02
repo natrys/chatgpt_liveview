@@ -35,12 +35,12 @@ defmodule ChatGPTWeb.HelperComponent do
 
   def format_conversation(assigns) do
     ~H"""
-    <div class="flex flex-col gap-2 font-['Finlandica'] text-lg text-black dark:text-gray-50">
-      <div class="p-2 bg-purple-50 dark:bg-zinc-700 rounded flex items-center">
+    <div class="flex flex-col gap-2 font-[Finlandica] text-lg text-black dark:text-gray-50">
+      <div class="p-2 bg-indigo-50 dark:bg-zinc-700 rounded flex items-center">
         <span class="w-10 text-left">Q</span>
         <div class="whitespace-pre-wrap"><%= @conversation.question %></div>
       </div>
-      <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded flex items-center leading-tight ml-10">
+      <div class="p-4 bg-slate-50 dark:bg-gray-700 rounded flex items-center leading-tight ml-10">
         <div class="whitespace-pre-wrap"><%= @conversation.answer %></div>
       </div>
     </div>

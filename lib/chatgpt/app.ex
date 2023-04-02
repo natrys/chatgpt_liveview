@@ -7,6 +7,7 @@ defmodule ChatGPT.App do
   alias ChatGPT.Repo
 
   alias ChatGPT.App.Chat
+  alias ChatGPT.App.ChatFTS
 
   @doc """
   Returns the list of chats.
@@ -21,8 +22,8 @@ defmodule ChatGPT.App do
     Repo.all(Chat)
   end
 
-  def list_last_chats(n, last \\ nil) do
-    from(c in Chat, order_by: {:desc, c.id}, limit: ^n)
+  def list_last_chats(last \\ 0) do
+    from(c in Chat, order_by: {:desc, c.id}, limit: 5)
     |> then(fn query ->
       if last > 0 do
         from(c in query, where: c.id < ^last)
@@ -32,6 +33,16 @@ defmodule ChatGPT.App do
     end)
     |> Repo.all()
     |> Enum.sort(fn a, b -> a.id < b.id end)
+  end
+
+  def search_chats(q) do
+    from(c in ChatFTS,
+      select: [:id, :question, :answer],
+      where: fragment("rank NOT NULL AND (question MATCH ? OR answer MATCH ?)", ^q, ^q),
+      order_by: [asc: :rank],
+      limit: 20
+    )
+    |> Repo.all()
   end
 
   @doc """

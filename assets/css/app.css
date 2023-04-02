@@ -2,4 +2,31 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* This file is for your main application CSS */
+@layer base {
+  @font-face {
+    font-family: 'Finlandica';
+    src: url('/fonts/Finlandica-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Finlandica';
+    src: url('/fonts/Finlandica-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'Finlandica';
+    src: url('/fonts/Finlandica-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+}

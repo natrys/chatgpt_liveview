@@ -1,6 +1,10 @@
 defmodule ChatGPTWeb.Router do
   use ChatGPTWeb, :router
 
+  def basic_auth(conn, _opts) do
+    Plug.BasicAuth.basic_auth(conn, Application.fetch_env!(:chatgpt, :basic_auth))
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -15,12 +19,10 @@ defmodule ChatGPTWeb.Router do
   end
 
   scope "/", ChatGPTWeb do
-    pipe_through :browser
+    pipe_through [:browser, :basic_auth]
 
-    get "/", PageController, :home
-
-    live "/chat", ChatLive, :chat
-    live "/chat/search", ChatLive, :search
+    live "/", ChatLive, :chat
+    live "/search", ChatLive, :search
   end
 
   # Other scopes may use custom stacks.

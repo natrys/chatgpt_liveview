@@ -20,19 +20,21 @@ defmodule ChatGPT.API do
       [{"Authorization", "Bearer #{get_api_key()}"}, {"Content-Type", "application/json"}],
       body
     )
-    |> Finch.request(ChatGPT.Finch, receive_timeout: 30_000)
+    |> Finch.request(ChatGPT.Finch, receive_timeout: 60_000)
   end
 
-  def request(config) do
-    with {:ok, body} <- craft_body(config),
-         {:ok, response} <- make_request(body) do
-      response.body
-      |> Jason.decode()
-      |> then(fn {:ok, resp} -> Map.get(resp, "choices") end)
+  def request(context) do
+    with {:ok, body} <- craft_body(context),
+         {:ok, response} <- make_request(body),
+         {:ok, map} <- Jason.decode(response.body) do
+      map
+      |> Map.get("choices")
       |> hd()
       |> Map.get("message")
       |> Map.get("content")
-      |> String.trim()
+      |> then(&{:ok, String.trim(&1)})
+    else
+      _ -> {:error, :request_error}
     end
   end
 end

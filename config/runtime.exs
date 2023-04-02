@@ -24,6 +24,10 @@ config :chatgpt,
   api_key: System.get_env("OPENAI_API_KEY") ||
     raise "OPENAI_API_KEY environment variable not provided."
 
+config :chatgpt, :basic_auth,
+  username: (System.get_env("AUTH_USERNAME") || raise "Needs username"),
+  password: (System.get_env("AUTH_PASSWORD") || raise "Needs password")
+
 if config_env() == :prod do
   database_path =
     System.get_env("DATABASE_PATH") ||

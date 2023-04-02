@@ -25,24 +25,50 @@ import topbar from "../vendor/topbar"
 let Hooks = {}
 Hooks.HandleQuestion = {
   mounted() {
+    this.el.focus();
+
     this.el.addEventListener("keydown", (event) => {
-      if (event.altKey && event.code == "Enter") {
-        this.pushEventTo("#chat-logic", "question-submit", {question: this.el.value, session: false});
-        document.getElementById("question-textarea").disabled = true;
-      } else if (event.shiftKey && event.code == "Enter") {
-        this.pushEventTo("#chat-logic", "question-submit", {question: this.el.value, session: true});
-        document.getElementById("question-textarea").disabled = true;
+      if ((event.altKey || event.shiftKey) && event.code == "Enter") {
+        let session = event.shiftKey;
+        this.pushEventTo("#chat-logic", "question-submit", {question: this.el.value, session: session});
+        this.el.disabled = true;
+        this.el.blur();
+      };
+    });
+
+    this.el.addEventListener("click", () => {
+      if (("Notification" in window) && (Notification.permission === "default")) {
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            console.log("notification permission granted");
+          }
+        })
       }
+    })
+
+    this.handleEvent("unfreeze-question-textarea", (_) => {
+      this.el.disabled = false;
+      this.el.focus();
     })
   },
 }
 
 Hooks.HandleChatUpdate = {
   updated() {
+    if (typeof document.hidden !== "undefined") {
+      if ((Notification.permission === "granted") && document.hidden) {
+        new Notification("Answer received", {
+          title: "ChatGPT",
+          icon: "/favicon.png"
+        });
+      }
+    }
+
     this.el.scrollTop = this.el.scrollHeight;
     let textarea = document.getElementById("question-textarea");
     textarea.value = "";
     textarea.disabled = false;
+    textarea.focus();
   }
 }
 

@@ -1,8 +1,6 @@
 <div data-theme={@theme} class={@theme}>
-  <.flash kind={:info} flash={@flash} />
-  <.flash kind={:error} flash={@flash} />
-  <div class="flex divide-x-2 px-4 sm:px-6 lg:px-8 divide-gray-300 dark:divide-gray-600">
-    <div class="flex-none w-1/5 px-2 h-screen overflow-clip pt-8">
+  <div class="flex divide-x-2 px-2 lg:px-4 divide-gray-300 dark:divide-gray-600 h-screen">
+    <div class="flex-none w-1/5 max-h-screen overflow-clip pt-8">
       <div class="flex flex-col justify-between h-full">
         <.live_component module={ChatGPTWeb.ChatLogic} id="chat-logic" />
         <span class="flex justify-center items-center gap-4 mb-8 cursor-pointer">
@@ -16,11 +14,11 @@
 
           <span phx-click="toggle-mode">
             <%= if @mode == :chat do %>
-              <.link patch={~p"/chat/search"}>
+              <.link patch={~p"/search"}>
                 <.icon name="hero-magnifying-glass" class="w-8 h-8" />
               </.link>
             <% else %>
-              <.link patch={~p"/chat"}>
+              <.link patch={~p"/"}>
                 <.icon name="hero-chat-bubble-oval-left-ellipsis" class="w-8 h-8" />
               </.link>
             <% end %>

@@ -57,8 +57,8 @@ Hooks.HandleChatUpdate = {
   updated() {
     if (typeof document.hidden !== "undefined") {
       if ((Notification.permission === "granted") && document.hidden) {
-        new Notification("Answer received", {
-          title: "ChatGPT",
+        new Notification("ChatGPT", {
+          body: "Answer Received",
           icon: "/favicon.png"
         });
       }

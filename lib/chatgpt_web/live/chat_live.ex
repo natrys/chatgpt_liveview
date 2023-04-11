@@ -14,43 +14,6 @@ defmodule ChatGPTWeb.ChatLive do
     {:noreply, assign(socket, theme: theme)}
   end
 
-  def handle_info({:question, context}, socket) do
-    last_id = context.last_id
-    session = context.session
-    question = context.question
-
-    history =
-      if session and last_id do
-        ChatGPT.App.get_chat_ancestors!(context.last_id)
-        |> ChatGPT.App.get_chat_by_ids!()
-        |> Enum.reduce(
-          [%{"role" => "user", "content" => context.question}],
-          fn [question, answer], acc ->
-            [
-              %{"role" => "user", "content" => question}
-              | [%{"role" => "assistant", "content" => answer} | acc]
-            ]
-          end
-        )
-      else
-        [%{"role" => "user", "content" => question}]
-      end
-
-    messages = [%{"role" => "system", "content" => context.system} | history]
-
-    Task.async(fn ->
-      #Process.sleep(5_000)
-      context
-      |> Map.put(:messages, messages)
-      #|> then(fn _context -> {:ok, String.upcase(question)} end)
-      |> ChatGPT.API.request()
-      |> then(&%{response: &1})
-      |> Map.merge(context)
-    end)
-
-    {:noreply, socket}
-  end
-
   def handle_info({ref, context}, socket) when is_reference(ref) do
     Process.demonitor(ref, [:flush])
 

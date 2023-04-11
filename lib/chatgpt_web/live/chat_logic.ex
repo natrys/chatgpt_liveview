@@ -22,15 +22,18 @@ defmodule ChatGPTWeb.ChatLogic do
   end
 
   def handle_event("update-temperature", %{"value" => value}, socket) do
-    {:noreply, assign(socket, temperature: String.to_float(value))}
+    {value, _} = Float.parse(value)
+    {:noreply, assign(socket, temperature: value)}
   end
 
   def handle_event("update-fpen", %{"value" => value}, socket) do
-    {:noreply, assign(socket, frequency_penalty: String.to_float(value))}
+    {value, _} = Float.parse(value)
+    {:noreply, assign(socket, frequency_penalty: value)}
   end
 
   def handle_event("update-ppen", %{"value" => value}, socket) do
-    {:noreply, assign(socket, presence_penalty: String.to_float(value))}
+    {value, _} = Float.parse(value)
+    {:noreply, assign(socket, presence_penalty: value)}
   end
 
   def handle_event("toggle-system-edit", %{"status" => status}, socket) do
@@ -64,29 +67,59 @@ defmodule ChatGPTWeb.ChatLogic do
         |> put_flash(:error, "Can't maintain session, unless chat is being saved.")
         |> push_event("unfreeze-question-textarea", %{})
       else
+        queue_question(socket.assigns, question, session)
         socket
-        |> queue_question(question, session)
       end
 
     {:noreply, socket}
   end
 
-  def queue_question(socket, question, session) do
-    context =
-      socket.assigns
+  def queue_question(assigns, question, session) do
+    history =
+      if session and assigns.last_id do
+        ChatGPT.App.get_chat_ancestors!(assigns.last_id)
+        |> ChatGPT.App.get_chat_by_ids!()
+        |> Enum.reduce(
+          [%{"role" => "user", "content" => question}],
+          fn [question, answer], acc ->
+            [
+              %{"role" => "user", "content" => question}
+              | [%{"role" => "assistant", "content" => answer} | acc]
+            ]
+          end
+        )
+      else
+        [%{"role" => "user", "content" => question}]
+      end
+
+    messages = [%{"role" => "system", "content" => assigns.system} | history]
+
+    question_config =
+      assigns
       |> Map.split([
         :temperature,
         :frequency_penalty,
         :presence_penalty,
-        :save_chat,
-        :last_id,
-        :system
       ])
       |> elem(0)
-      |> Map.merge(%{question: question, session: session})
+      |> Map.merge(%{messages: messages})
 
-    send(self(), {:question, context})
-    socket
+    answer_config = %{
+      last_id: assigns.last_id,
+      save_chat: assigns.save_chat,
+      session: session,
+      question: question
+    }
+
+    Task.async(fn ->
+      #Process.sleep(2_000)
+      question_config
+      |> Map.put(:messages, messages)
+      #|> then(fn _context -> {:ok, String.upcase(question)} end)
+      |> ChatGPT.API.request()
+      |> then(&%{response: &1})
+      |> Map.merge(answer_config)
+    end)
   end
 
   def render(assigns) do
